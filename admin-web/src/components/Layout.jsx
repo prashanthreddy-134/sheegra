@@ -20,7 +20,7 @@ export default function Layout({ children }) {
       <aside className="w-60 bg-panel text-cream flex flex-col shrink-0">
         <div className="p-5 flex items-center gap-2">
           <span className="w-8 h-8 rounded-lg bg-leaf grid place-items-center font-display font-800">F</span>
-          <span className="font-display font-800">Fresh Store</span>
+          <span className="font-display font-800">Sheegra</span>
         </div>
         <nav className="flex-1 px-3 space-y-1">
           {LINKS.map((l) => (

@@ -1,4 +1,4 @@
-// Fresh Store — shared database schema
+// Sheegra — shared database schema
 // One database, consumed by:
 // customer mobile app, customer website,
 // admin mobile app, admin website

@@ -242,7 +242,7 @@ export default function ProfileStoreCash() {
                 </p>
 
                 <p className="text-xs text-ink/45 mt-1 leading-5">
-                  Fresh Store may provide promotional Store Cash
+                  Sheegra may provide promotional Store Cash
                   to customers.
                 </p>
               </div>

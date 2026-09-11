@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.brand}>Fresh Store</Text>
+          <Text style={styles.brand}>Sheegra</Text>
           <Text style={styles.eta}>delivery in ~18 min</Text>
         </View>
         <TouchableOpacity style={styles.cartBtn} onPress={() => navigation.navigate("Cart")}>

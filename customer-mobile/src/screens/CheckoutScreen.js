@@ -45,7 +45,7 @@ export default function CheckoutScreen({ navigation }) {
         amount: razorpay.amount,
         currency: razorpay.currency,
         order_id: razorpay.orderId,
-        name: "Fresh Store",
+        name: "Sheegra",
         description: `Order ${order.orderNumber}`,
         prefill: { contact: user?.phone, name: user?.name || "" },
         theme: { color: "#1B7A43" },

@@ -78,7 +78,7 @@ export default function ProfileRewards() {
 
                 <p className="text-xs text-ink/45 mt-1 leading-5">
                   Eligible activities and purchases may qualify for rewards
-                  according to Fresh Store's reward rules.
+                  according to Sheegra's reward rules.
                 </p>
               </div>
             </div>

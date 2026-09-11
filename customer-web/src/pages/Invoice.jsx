@@ -77,7 +77,7 @@ export default function Invoice() {
         margin: 10,
 
         filename:
-          `Fresh-Store-Invoice-${order.orderNumber}.pdf`,
+          `Sheegra-Invoice-${order.orderNumber}.pdf`,
 
         image: {
           type: "jpeg",
@@ -240,7 +240,7 @@ export default function Invoice() {
 
             <div>
               <h1 className="text-3xl font-bold">
-                FRESH STORE
+                Sheegra
               </h1>
 
               <p className="text-sm text-gray-500 mt-1">
@@ -280,7 +280,7 @@ export default function Invoice() {
 
               <p className="font-semibold">
                 {customer.name ||
-                  "Fresh Store Customer"}
+                  "Sheegra Customer"}
               </p>
 
               {customer.phone && (
@@ -537,7 +537,7 @@ export default function Invoice() {
           <div className="mt-10 pt-5 border-t border-gray-200 text-center">
 
             <p className="font-semibold">
-              Thank you for shopping with Fresh Store!
+              Thank you for shopping with Sheegra!
             </p>
 
             <p className="text-xs text-gray-500 mt-1">

@@ -22,7 +22,7 @@ export default function ProfileHelp() {
         </h1>
 
         <p className="text-sm text-ink/45 mt-1 mb-6">
-          We're here to help with your Fresh Store experience
+          We're here to help with your Sheegra experience
         </p>
 
         <div className="space-y-3">
@@ -69,7 +69,7 @@ export default function ProfileHelp() {
               </h2>
 
               <p className="text-xs text-ink/45 mt-1">
-                Contact Fresh Store support for assistance.
+                Contact Sheegra support for assistance.
               </p>
             </div>
           </div>

@@ -14,7 +14,7 @@ export default function Terms() {
         <div className="space-y-5 text-sm text-ink/80 leading-relaxed">
           <section>
             <h2 className="font-display font-700 text-base text-ink mb-1">1. Who we are</h2>
-            <p>[YOUR BUSINESS LEGAL NAME], registered at [YOUR REGISTERED ADDRESS] ("Fresh Store", "we", "us"), operates this website, mobile app, and related services (the "Platform") for the sale of groceries and household items.</p>
+            <p>[YOUR BUSINESS LEGAL NAME], registered at [YOUR REGISTERED ADDRESS] ("Sheegra", "we", "us"), operates this website, mobile app, and related services (the "Platform") for the sale of groceries and household items.</p>
           </section>
           <section>
             <h2 className="font-display font-700 text-base text-ink mb-1">2. Account & OTP login</h2>

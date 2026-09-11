@@ -26,7 +26,7 @@ export default function NavBar({ search, onSearch }) {
 
           <div className="leading-tight">
             <div className="font-display font-800 text-lg text-ink">
-              Fresh Store
+              Sheegra
             </div>
 
             <div className="text-[11px] font-mono text-leaf -mt-0.5">

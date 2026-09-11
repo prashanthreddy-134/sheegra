@@ -49,7 +49,7 @@ export default function ProfileSuggestProducts() {
           </h1>
 
           <p className="text-sm text-ink/45 mt-1">
-            Tell us what products you would like to see on Fresh Store.
+            Tell us what products you would like to see on Sheegra.
           </p>
         </div>
 
@@ -140,7 +140,7 @@ export default function ProfileSuggestProducts() {
 
                 <p className="text-xs text-ink/45 mt-1 leading-5">
                   Help us understand which products customers want to find
-                  on Fresh Store.
+                  on Sheegra.
                 </p>
               </div>
             </div>

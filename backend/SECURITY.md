@@ -1,4 +1,4 @@
-# Security review — Fresh Store backend
+# Security review — Sheegra backend
 
 ## Implemented
 

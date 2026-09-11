@@ -41,7 +41,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logo}><Text style={styles.logoText}>F</Text></View>
-      <Text style={styles.title}>{step === "phone" ? "Log in to Fresh Store" : "Enter the code"}</Text>
+      <Text style={styles.title}>{step === "phone" ? "Log in to Sheegra" : "Enter the code"}</Text>
       <Text style={styles.subtitle}>{step === "phone" ? "We'll text you a one-time code." : `Sent to ${phone}`}</Text>
 
       {step === "phone" ? (

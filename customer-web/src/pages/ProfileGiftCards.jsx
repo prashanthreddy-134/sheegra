@@ -27,7 +27,7 @@ export default function ProfileGiftCards() {
           </h1>
 
           <p className="text-sm text-ink/45 mt-1">
-            Manage your Fresh Store gift cards
+            Manage your Sheegra gift cards
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export default function ProfileGiftCards() {
           </h2>
 
           <p className="text-sm text-ink/45 mt-2 max-w-sm mx-auto">
-            Your purchased or received Fresh Store gift cards will appear
+            Your purchased or received Sheegra gift cards will appear
             here.
           </p>
 
@@ -71,7 +71,7 @@ export default function ProfileGiftCards() {
 
                 <p className="text-xs text-ink/45 mt-1 leading-5">
                   Gift cards can be used to give someone credit for shopping
-                  on Fresh Store.
+                  on Sheegra.
                 </p>
               </div>
             </div>

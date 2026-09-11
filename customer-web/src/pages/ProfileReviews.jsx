@@ -27,7 +27,7 @@ export default function ProfileReviews() {
           </h1>
 
           <p className="text-sm text-ink/45 mt-1">
-            Review your Fresh Store purchases and earn rewards.
+            Review your Sheegra purchases and earn rewards.
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export default function ProfileReviews() {
 
                 <p className="text-xs text-ink/45 mt-1 leading-5">
                   Share your experience with products you have purchased from
-                  Fresh Store.
+                  Sheegra.
                 </p>
               </div>
             </div>

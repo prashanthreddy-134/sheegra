@@ -42,7 +42,7 @@ async function sendViaTwilio(phone, code) {
   await client.messages.create({
     to: phone,
     messagingServiceSid: process.env.TWILIO_VERIFY_SERVICE_SID,
-    body: `Your Fresh Store verification code is ${code}. It expires in ${OTP_TTL_MINUTES} minutes.`,
+    body: `Your Sheegra verification code is ${code}. It expires in ${OTP_TTL_MINUTES} minutes.`,
   });
 }
 

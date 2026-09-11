@@ -41,7 +41,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logo}><Text style={styles.logoText}>F</Text></View>
-      <Text style={styles.title}>Fresh Store Admin</Text>
+      <Text style={styles.title}>Sheegra Admin</Text>
       <Text style={styles.subtitle}>
         {step === "phone" ? "Sign in with your registered admin number." : `Code sent to ${phone}`}
       </Text>

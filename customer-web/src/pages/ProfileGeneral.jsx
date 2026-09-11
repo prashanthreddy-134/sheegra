@@ -27,7 +27,7 @@ export default function ProfileGeneral() {
           </h1>
 
           <p className="text-sm text-ink/45 mt-1">
-            Terms, privacy and other Fresh Store information.
+            Terms, privacy and other Sheegra information.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default function ProfileGeneral() {
               </h2>
 
               <p className="text-xs text-ink/45 mt-1">
-                Read the terms that apply to using Fresh Store.
+                Read the terms that apply to using Sheegra.
               </p>
             </div>
 
@@ -75,7 +75,7 @@ export default function ProfileGeneral() {
               </h2>
 
               <p className="text-xs text-ink/45 mt-1">
-                Learn how Fresh Store handles your information.
+                Learn how Sheegra handles your information.
               </p>
             </div>
 
@@ -115,7 +115,7 @@ export default function ProfileGeneral() {
         <div className="bg-white rounded-[24px] border border-ink/10 p-5 mt-5">
 
           <h2 className="font-display font-800 text-lg mb-4">
-            Fresh Store
+            Sheegra
           </h2>
 
           <div className="space-y-3 text-sm text-ink/60">

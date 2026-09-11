@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Fresh Store Admin",
-    "slug": "fresh-store-admin",
+    "name": "Sheegra Admin",
+    "slug": "sheegra-admin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +12,7 @@
     "android": { "package": "com.freshstore.admin", "permissions": ["NOTIFICATIONS"] },
     "plugins": [
       ["expo-notifications", { "icon": "./assets/icon.png", "color": "#1B7A43" }],
-      ["expo-image-picker", { "photosPermission": "Fresh Store Admin uses your photos to add product images." }]
+      ["expo-image-picker", { "photosPermission": "Sheegra Admin uses your photos to add product images." }]
     ]
   }
 }

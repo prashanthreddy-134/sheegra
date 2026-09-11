@@ -1,4 +1,4 @@
-# HOW TO RUN FRESH STORE — read this first
+# HOW TO RUN Sheegra — read this first
 
 **Why did the page show up blank when you opened `index.html`?**
 
@@ -31,10 +31,10 @@ You do **not** need to install anything else globally — each app installs its 
 
 ## 1. Unzip the project
 
-Unzip `fresh-store.zip` somewhere on your computer. You should see:
+Unzip `sheegra.zip` somewhere on your computer. You should see:
 
 ```
-fresh-store/
+sheegra/
 ├── backend/
 ├── customer-web/
 ├── admin-web/
@@ -42,7 +42,7 @@ fresh-store/
 └── admin-mobile/
 ```
 
-Open a terminal and `cd` into that `fresh-store` folder.
+Open a terminal and `cd` into that `sheegra` folder.
 
 ---
 
@@ -73,7 +73,7 @@ npm run dev
 If everything works, you'll see:
 
 ```
-Fresh Store API running on port 4000
+Sheegra API running on port 4000
 ```
 
 **Leave this terminal window open and running.** Every other app needs this backend running in the background. Open a **new terminal tab/window** for each step below.
@@ -113,7 +113,7 @@ You'll see something like:
   ➜  Local:   http://localhost:5173/
 ```
 
-Now open **http://localhost:5173** in your browser — this is the real way to view it, not opening `index.html` directly. You should see the Fresh Store homepage with products.
+Now open **http://localhost:5173** in your browser — this is the real way to view it, not opening `index.html` directly. You should see the Sheegra homepage with products.
 
 ---
 

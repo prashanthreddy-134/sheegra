@@ -15,7 +15,7 @@ const menuSections = [
       },
       {
         title: "Help & support",
-        subtitle: "Get help with your Fresh Store experience",
+        subtitle: "Get help with your Sheegra experience",
         icon: "💬",
         path: "/profile/help",
       },
@@ -198,7 +198,7 @@ export default function Profile() {
 
             <div className="min-w-0">
               <h1 className="font-display font-800 text-xl text-ink truncate">
-                {user?.name || "Fresh Store User"}
+                {user?.name || "Sheegra User"}
               </h1>
 
               <p className="text-sm text-ink/50 mt-1">
@@ -269,7 +269,7 @@ export default function Profile() {
         {/* App Version */}
         <div className="text-center mt-8">
           <p className="text-xs text-ink/35">
-            Fresh Store
+            Sheegra
           </p>
 
           <p className="text-[11px] text-ink/25 mt-1">

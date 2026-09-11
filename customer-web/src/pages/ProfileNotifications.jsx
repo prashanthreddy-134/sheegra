@@ -132,7 +132,7 @@ export default function ProfileNotifications() {
                   </p>
 
                   <p className="text-xs text-ink/45 mt-1 leading-5">
-                    Receive important information about your Fresh Store
+                    Receive important information about your Sheegra
                     account.
                   </p>
                 </div>
@@ -169,7 +169,7 @@ export default function ProfileNotifications() {
 
                 <p className="text-xs text-ink/45 mt-1 leading-5">
                   Notifications can help you stay informed about your orders
-                  and Fresh Store account.
+                  and Sheegra account.
                 </p>
               </div>
             </div>

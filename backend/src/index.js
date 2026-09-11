@@ -90,7 +90,7 @@ import {
 const app = express();
 
 console.log(
-  "🔥 FRESH STORE BACKEND VERSION: 2026-08-28-COUPON-SYNC"
+  "🔥 Sheegra BACKEND VERSION: 2026-08-28-COUPON-SYNC"
 );
 
 // ============================================================
@@ -186,7 +186,7 @@ app.use(
 app.get("/", (req, res) => {
   res.json({
     message:
-      "Fresh Store API is running",
+      "Sheegra API is running",
     status: "ok",
   });
 });
@@ -324,7 +324,7 @@ const PORT =
 
 app.listen(PORT, () => {
   console.log(
-    `Fresh Store API running on port ${PORT}`
+    `Sheegra API running on port ${PORT}`
   );
 
   startStaleReservationSweep();

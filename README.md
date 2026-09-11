@@ -1,9 +1,9 @@
-# Fresh Store
+# Sheegra
 
 A production-shaped grocery e-commerce platform (Zepto/Blinkit-style) with one shared backend and four client apps:
 
 ```
-fresh-store/
+sheegra/
 ├── backend/           Node.js + Express + Prisma + PostgreSQL — the shared API
 ├── customer-web/      Customer website (React + Vite)
 ├── admin-web/         Admin website (React + Vite)

@@ -27,7 +27,7 @@ export default function ProfilePayments() {
           </h1>
 
           <p className="text-sm text-ink/45 mt-1">
-            Manage how you pay for your Fresh Store orders.
+            Manage how you pay for your Sheegra orders.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export default function ProfilePayments() {
 
           <p className="text-xs text-ink/40 mt-4 leading-5">
             Payment details are handled securely through the payment provider
-            during checkout. Fresh Store does not display or store your full
+            during checkout. Sheegra does not display or store your full
             card details here.
           </p>
 
@@ -95,7 +95,7 @@ export default function ProfilePayments() {
 
                 <p className="text-xs text-ink/45 mt-1 leading-5">
                   Online payments are processed through the secure payment
-                  gateway used by Fresh Store.
+                  gateway used by Sheegra.
                 </p>
               </div>
 

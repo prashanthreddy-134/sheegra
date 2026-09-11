@@ -324,10 +324,10 @@ export default function Login() {
           {mode === "login"
             ? step === "otp"
               ? "Verify your mobile number"
-              : "Log in to Fresh Store"
+              : "Log in to Sheegra"
             : step === "otp"
             ? "Verify your mobile number"
-            : "Create your Fresh Store account"}
+            : "Create your Sheegra account"}
         </h1>
 
         <p className="text-sm text-ink/60 mb-5">
@@ -605,7 +605,7 @@ export default function Login() {
         <div className="text-center mt-5 pt-4 border-t border-ink/10">
           {mode === "login" ? (
             <p className="text-sm text-ink/60">
-              New to Fresh Store?{" "}
+              New to Sheegra?{" "}
               <button
                 type="button"
                 onClick={() =>

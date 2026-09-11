@@ -579,7 +579,7 @@ router.post("/orders/checkout", async (req, res) => {
   );
 
   console.log(
-    "FRESH STORE CHECKOUT CALCULATION"
+    "Sheegra CHECKOUT CALCULATION"
   );
 
   console.log({

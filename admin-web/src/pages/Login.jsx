@@ -47,7 +47,7 @@ export default function Login() {
         <div className="w-10 h-10 rounded-xl2 bg-leaf grid place-items-center mb-4">
           <span className="text-cream font-display font-800">F</span>
         </div>
-        <h1 className="font-display font-800 text-xl mb-1">Fresh Store Admin</h1>
+        <h1 className="font-display font-800 text-xl mb-1">Sheegra Admin</h1>
         <p className="text-sm text-ink/60 mb-5">
           {step === "phone" ? "Sign in with your registered admin number." : `Code sent to ${phone}`}
         </p>

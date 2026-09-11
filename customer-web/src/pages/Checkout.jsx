@@ -935,7 +935,7 @@ export default function Checkout() {
       );
 
       console.log(
-        "FRESH STORE CHECKOUT REQUEST:"
+        "Sheegra CHECKOUT REQUEST:"
       );
 
       console.log(payload);
@@ -982,7 +982,7 @@ export default function Checkout() {
       } = res.data;
 
       console.log(
-        "FRESH STORE CHECKOUT RESPONSE:",
+        "Sheegra CHECKOUT RESPONSE:",
         {
           order,
           devPayment,
@@ -1262,7 +1262,7 @@ export default function Checkout() {
           razorpay.orderId,
 
         name:
-          "Fresh Store",
+          "Sheegra",
 
         description:
           `Order ${order.orderNumber}`,
