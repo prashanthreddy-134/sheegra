@@ -581,19 +581,18 @@ router.post(
     }
   }
 );
-
 // ============================================================
-// ADMIN LOGIN - REQUEST OTP
+// ADMIN LOGIN - TEMPORARY NO-OTP LOGIN
 // ============================================================
-// PUBLIC ROUTE
-// NO JWT REQUIRED.
+// TEMPORARY TESTING VERSION.
 //
-// Only existing ADMIN/STAFF accounts can request OTP.
+// Only existing ADMIN/STAFF accounts can login.
+// OTP will be restored after testing by switching Render
+// back to the main branch.
 // ============================================================
 
 router.post(
-  "/admin/otp/request",
-  otpRequestLimiter,
+  "/admin/login",
   async (req, res) => {
     const parsed = phoneSchema.safeParse(req.body);
 
@@ -606,6 +605,10 @@ router.post(
     const { phone } = parsed.data;
 
     try {
+      // --------------------------------------------------------
+      // Find existing ADMIN/STAFF account.
+      // --------------------------------------------------------
+
       const admin = await prisma.user.findFirst({
         where: {
           phone,
@@ -627,95 +630,8 @@ router.post(
         });
       }
 
-      const { expiresAt } = await requestOtp(
-        phone,
-        "ADMIN_LOGIN"
-      );
-
-      return res.json({
-        message: "OTP sent",
-        expiresAt,
-      });
-    } catch (err) {
-      console.error(
-        "Admin OTP request error:",
-        err
-      );
-
-      return res.status(500).json({
-        error: "Could not send admin OTP.",
-      });
-    }
-  }
-);
-
-// ============================================================
-// ADMIN LOGIN - VERIFY OTP
-// ============================================================
-// PUBLIC ROUTE
-// NO JWT REQUIRED.
-//
-// JWT is created ONLY after the ADMIN_LOGIN OTP is verified.
-// ============================================================
-
-router.post(
-  "/admin/otp/verify",
-  otpVerifyLimiter,
-  async (req, res) => {
-    const parsed = verifySchema.safeParse(req.body);
-
-    if (!parsed.success) {
-      return res.status(400).json({
-        error: parsed.error.errors[0].message,
-      });
-    }
-
-    const { phone, code } = parsed.data;
-
-    try {
       // --------------------------------------------------------
-      // Verify ADMIN_LOGIN OTP.
-      // --------------------------------------------------------
-
-      const result = await verifyOtp(
-        phone,
-        code,
-        "ADMIN_LOGIN"
-      );
-
-      if (!result.valid) {
-        return res.status(400).json({
-          error: result.reason,
-        });
-      }
-
-      // --------------------------------------------------------
-      // Find the actual admin/staff account.
-      // --------------------------------------------------------
-
-      const admin = await prisma.user.findFirst({
-        where: {
-          phone,
-          role: {
-            in: ["ADMIN", "STAFF"],
-          },
-        },
-      });
-
-      if (!admin) {
-        return res.status(403).json({
-          error: "Admin account not found.",
-        });
-      }
-
-      if (!admin.isActive) {
-        return res.status(403).json({
-          error: "Admin account disabled. Contact support.",
-        });
-      }
-
-      // --------------------------------------------------------
-      // Create admin JWT.
+      // TEMPORARY: Login directly without OTP.
       // --------------------------------------------------------
 
       const token = signToken(
@@ -735,12 +651,12 @@ router.post(
       });
     } catch (err) {
       console.error(
-        "Admin OTP verification error:",
+        "Admin login error:",
         err
       );
 
       return res.status(500).json({
-        error: "Could not verify admin OTP.",
+        error: "Could not login.",
       });
     }
   }
