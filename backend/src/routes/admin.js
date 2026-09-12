@@ -62,15 +62,23 @@ router.get("/dashboard", async (req, res) => {
         },
       }),
 
-      prisma.order.findMany({
-        take: 10,
-        orderBy: {
-          placedAt: "desc",
-        },
-        include: {
-          user: true,
-        },
-      }),
+     prisma.order.findMany({
+  take: 10,
+  orderBy: {
+    placedAt: "desc",
+  },
+  include: {
+    user: true,
+    items: true,
+    address: true,
+    coupon: true,
+    statusHistory: {
+      orderBy: {
+        createdAt: "asc",
+      },
+    },
+  },
+}),
     ]);
 
     const lowStockProducts = await prisma.$queryRaw`
