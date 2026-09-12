@@ -85,7 +85,7 @@ function Cart() {
 
   function goToCheckout() {
     sessionStorage.setItem(
-      "freshStoreCashToUse",
+      "sheegraCashToUse",
       String(storeCashToUse)
     );
 

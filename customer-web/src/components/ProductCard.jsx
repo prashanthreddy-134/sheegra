@@ -1,11 +1,16 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { api } from "../api/client";
 
 export default function ProductCard({ product }) {
   const { addToCart, items, updateQuantity } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
 
   const cartItem = items.find(
     (item) => item.productId === product.id
@@ -16,6 +21,83 @@ export default function ProductCard({ product }) {
 
   const isOutOfStock = stock <= 0;
   const isLowStock = stock > 0 && stock <= lowStockLimit;
+
+  /*
+   * Check whether this product is already in the
+   * customer's wishlist.
+   */
+  useEffect(() => {
+    if (!user) {
+      setIsWishlisted(false);
+      return;
+    }
+
+    let active = true;
+
+    api
+      .get("/wishlist")
+      .then((res) => {
+        if (!active) return;
+
+        const wishlistItems = Array.isArray(res.data)
+          ? res.data
+          : [];
+
+        const exists = wishlistItems.some(
+          (item) =>
+            Number(item.productId) === Number(product.id) ||
+            Number(item.product?.id) === Number(product.id)
+        );
+
+        setIsWishlisted(exists);
+      })
+      .catch(() => {
+        if (active) {
+          setIsWishlisted(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [user, product.id]);
+
+  /*
+   * Add / remove product from wishlist.
+   */
+  async function handleWishlist(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    if (wishlistLoading) return;
+
+    setWishlistLoading(true);
+
+    try {
+      if (isWishlisted) {
+        await api.delete(`/wishlist/${product.id}`);
+        setIsWishlisted(false);
+      } else {
+        await api.post("/wishlist", {
+          productId: product.id,
+        });
+        setIsWishlisted(true);
+      }
+    } catch (error) {
+      console.error("Wishlist update failed:", error);
+
+      /*
+       * If the request fails, keep the existing state.
+       */
+    } finally {
+      setWishlistLoading(false);
+    }
+  }
 
   function handleAdd(e) {
     e.preventDefault();
@@ -64,9 +146,10 @@ export default function ProductCard({ product }) {
       className={`
         group bg-white rounded-xl2 border border-ink/10 p-3
         flex flex-col transition-all duration-200
-        ${isOutOfStock
-          ? "opacity-65 cursor-default"
-          : "hover:shadow-md"
+        ${
+          isOutOfStock
+            ? "opacity-65 cursor-default"
+            : "hover:shadow-md"
         }
       `}
     >
@@ -87,6 +170,52 @@ export default function ProductCard({ product }) {
             🥬
           </span>
         )}
+
+        {/* Wishlist Button */}
+        <button
+          type="button"
+          onClick={handleWishlist}
+          disabled={wishlistLoading}
+          aria-label={
+            isWishlisted
+              ? `Remove ${product.name} from wishlist`
+              : `Add ${product.name} to wishlist`
+          }
+          title={
+            isWishlisted
+              ? "Remove from wishlist"
+              : "Add to wishlist"
+          }
+          className={`
+            absolute top-2 right-2 z-10
+            w-9 h-9
+            rounded-full
+            flex items-center justify-center
+            bg-white/95
+            border border-ink/10
+            shadow-sm
+            transition-all duration-200
+            ${
+              wishlistLoading
+                ? "opacity-50 cursor-wait"
+                : "hover:scale-110 active:scale-95"
+            }
+          `}
+        >
+          <span
+            className={`
+              text-lg leading-none
+              transition-transform duration-200
+              ${
+                isWishlisted
+                  ? "text-red-500 scale-110"
+                  : "text-ink/45"
+              }
+            `}
+          >
+            {isWishlisted ? "♥" : "♡"}
+          </span>
+        </button>
 
         {/* Discount */}
         {!isOutOfStock &&

@@ -18,9 +18,6 @@ export default function Layout({ children }) {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  /* -------------------------------------------------
-     Close mobile sidebar when screen becomes desktop
-  -------------------------------------------------- */
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -35,38 +32,27 @@ export default function Layout({ children }) {
     };
   }, []);
 
-  /* -------------------------------------------------
-     Prevent background scrolling while mobile drawer
-     is open
-  -------------------------------------------------- */
   useEffect(() => {
-    if (sidebarOpen && window.innerWidth < 1024) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow =
+      sidebarOpen && window.innerWidth < 1024 ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
     };
   }, [sidebarOpen]);
 
-  function openSidebar() {
-    setSidebarOpen(true);
-  }
-
-  function closeSidebar() {
+  const closeSidebar = () => {
     setSidebarOpen(false);
-  }
+  };
 
-  function handleLogout() {
+  const handleLogout = () => {
     closeSidebar();
     logout();
     navigate("/login");
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen w-full bg-cream">
 
       {/* =====================================================
           MOBILE HEADER
@@ -80,6 +66,7 @@ export default function Layout({ children }) {
           right-0
           z-40
           h-14
+          w-full
           bg-panel
           text-cream
           flex
@@ -89,15 +76,14 @@ export default function Layout({ children }) {
           shadow-md
         "
       >
-
-        {/* Menu button */}
         <button
           type="button"
-          onClick={openSidebar}
+          onClick={() => setSidebarOpen(true)}
           aria-label="Open navigation menu"
           className="
             w-10
             h-10
+            shrink-0
             rounded-lg
             bg-leaf
             grid
@@ -110,13 +96,12 @@ export default function Layout({ children }) {
           ☰
         </button>
 
-        {/* Mobile brand */}
-        <div className="flex items-center gap-2">
-
+        <div className="flex items-center gap-2 min-w-0">
           <span
             className="
               w-8
               h-8
+              shrink-0
               rounded-lg
               bg-leaf
               grid
@@ -129,20 +114,17 @@ export default function Layout({ children }) {
             S
           </span>
 
-          <span className="font-display font-800 text-base">
+          <span className="font-display font-800 text-base truncate">
             Sheegra
           </span>
-
         </div>
 
-        {/* Right spacer keeps brand centered */}
-        <div className="w-10" />
-
+        <div className="w-10 shrink-0" />
       </header>
 
 
       {/* =====================================================
-          MOBILE BACKDROP
+          MOBILE OVERLAY
       ====================================================== */}
       {sidebarOpen && (
         <button
@@ -173,6 +155,7 @@ export default function Layout({ children }) {
 
           h-screen
           w-64
+          max-w-[85vw]
 
           bg-panel
           text-cream
@@ -181,22 +164,22 @@ export default function Layout({ children }) {
           flex-col
 
           shadow-2xl
+          lg:shadow-none
 
           transform
           transition-transform
           duration-300
           ease-out
 
-          lg:translate-x-0
-          lg:shadow-none
-
-          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          ${
+            sidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          }
         `}
       >
 
-        {/* =================================================
-            SIDEBAR BRAND
-        ================================================== */}
+        {/* Sidebar header */}
         <div
           className="
             h-14
@@ -209,13 +192,13 @@ export default function Layout({ children }) {
             border-white/10
           "
         >
-
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 min-w-0">
 
             <span
               className="
                 w-8
                 h-8
+                shrink-0
                 rounded-lg
                 bg-leaf
                 grid
@@ -228,14 +211,12 @@ export default function Layout({ children }) {
               S
             </span>
 
-            <span className="font-display font-800 text-lg">
+            <span className="font-display font-800 text-lg truncate">
               Sheegra
             </span>
 
           </div>
 
-
-          {/* Mobile close */}
           <button
             type="button"
             onClick={closeSidebar}
@@ -244,24 +225,21 @@ export default function Layout({ children }) {
               lg:hidden
               w-9
               h-9
+              shrink-0
               rounded-lg
               bg-white/5
               hover:bg-white/10
               grid
               place-items-center
               text-lg
-              transition-colors
             "
           >
             ✕
           </button>
-
         </div>
 
 
-        {/* =================================================
-            NAVIGATION
-        ================================================== */}
+        {/* Navigation */}
         <nav
           className="
             flex-1
@@ -272,7 +250,6 @@ export default function Layout({ children }) {
             space-y-1
           "
         >
-
           {LINKS.map((link) => (
             <NavLink
               key={link.to}
@@ -283,19 +260,13 @@ export default function Layout({ children }) {
                 flex
                 items-center
                 gap-3
-
                 w-full
-
                 px-3
                 py-3
-
                 rounded-lg
-
                 text-sm
                 font-medium
-
-                transition-all
-                duration-150
+                transition-colors
 
                 ${
                   isActive
@@ -304,76 +275,40 @@ export default function Layout({ children }) {
                 }
               `}
             >
-
-              <span
-                className="
-                  w-6
-                  min-w-6
-                  text-center
-                  text-base
-                  shrink-0
-                "
-              >
+              <span className="w-6 min-w-6 text-center text-base">
                 {link.icon}
               </span>
 
               <span className="truncate">
                 {link.label}
               </span>
-
             </NavLink>
           ))}
-
         </nav>
 
 
-        {/* =================================================
-            USER + LOGOUT
-        ================================================== */}
-        <div
-          className="
-            shrink-0
-            p-4
-            border-t
-            border-white/10
-          "
-        >
+        {/* User */}
+        <div className="shrink-0 p-4 border-t border-white/10">
 
-          <div
-            className="
-              text-xs
-              text-cream/50
-              mb-3
-              truncate
-            "
-          >
+          <div className="text-xs text-cream/50 mb-3 truncate">
             {user?.phone || "Admin"}
           </div>
-
 
           <button
             type="button"
             onClick={handleLogout}
             className="
               w-full
-
-              text-left
-
               flex
               items-center
               gap-2
-
               px-3
               py-2.5
-
               rounded-lg
-
               text-sm
               text-cream/70
-
               hover:text-cream
               hover:bg-white/5
-
               transition-colors
             "
           >
@@ -382,26 +317,27 @@ export default function Layout({ children }) {
           </button>
 
         </div>
-
       </aside>
 
 
       {/* =====================================================
-          MAIN APPLICATION AREA
+          MAIN CONTENT
       ====================================================== */}
       <div
         className="
+          w-full
           min-h-screen
-
           lg:ml-64
+          lg:w-[calc(100%-16rem)]
         "
       >
-
         <main
           className="
+            w-full
+            min-w-0
             min-h-screen
 
-            pt-18
+            pt-14
             px-3
             pb-4
 
@@ -411,14 +347,10 @@ export default function Layout({ children }) {
             lg:pt-6
             lg:px-6
             lg:pb-6
-
-            min-w-0
-            overflow-x-hidden
           "
         >
           {children}
         </main>
-
       </div>
 
     </div>

@@ -8,8 +8,8 @@
     "userInterfaceStyle": "light",
     "splash": { "backgroundColor": "#101913" },
     "assetBundlePatterns": ["**/*"],
-    "ios": { "supportsTablet": true, "bundleIdentifier": "com.freshstore.admin" },
-    "android": { "package": "com.freshstore.admin", "permissions": ["NOTIFICATIONS"] },
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.sheegra.admin" },
+    "android": { "package": "com.sheegra.admin", "permissions": ["NOTIFICATIONS"] },
     "plugins": [
       ["expo-notifications", { "icon": "./assets/icon.png", "color": "#1B7A43" }],
       ["expo-image-picker", { "photosPermission": "Sheegra Admin uses your photos to add product images." }]

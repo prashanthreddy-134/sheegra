@@ -73,10 +73,10 @@ async function main() {
 
   // --- Sample coupon ---
   await prisma.coupon.upsert({
-    where: { code: "FRESH50" },
+    where: { code: "SHEE50" },
     update: {},
     create: {
-      code: "FRESH50",
+      code: "SHEE50",
       description: "₹50 off on orders above ₹299",
       discountType: "FLAT",
       discountValue: 50,

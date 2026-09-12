@@ -138,7 +138,7 @@ function getRazorpayConfig(paymentMethod) {
   if (method === "UPI") {
     return {
       blocks: {
-        freshStorePayment: {
+        sheegraPayment: {
           name: "UPI",
 
           instruments: [
@@ -150,7 +150,7 @@ function getRazorpayConfig(paymentMethod) {
       },
 
       sequence: [
-        "freshStorePayment",
+        "sheegraPayment",
       ],
 
       preferences: {
@@ -187,7 +187,7 @@ function getRazorpayConfig(paymentMethod) {
   ) {
     return {
       blocks: {
-        freshStorePayment: {
+        sheegraPayment: {
           name: "Cards",
 
           instruments: [
@@ -199,7 +199,7 @@ function getRazorpayConfig(paymentMethod) {
       },
 
       sequence: [
-        "freshStorePayment",
+        "sheegraPayment",
       ],
 
       preferences: {
@@ -218,7 +218,7 @@ function getRazorpayConfig(paymentMethod) {
   ) {
     return {
       blocks: {
-        freshStorePayment: {
+        sheegraPayment: {
           name: "Netbanking",
 
           instruments: [
@@ -230,7 +230,7 @@ function getRazorpayConfig(paymentMethod) {
       },
 
       sequence: [
-        "freshStorePayment",
+        "sheegraPayment",
       ],
 
       preferences: {
@@ -383,7 +383,7 @@ export default function Checkout() {
         0,
         Number(
           sessionStorage.getItem(
-            "freshStoreCashToUse"
+            "sheegraCashToUse"
           ) || 0
         )
       );
@@ -671,7 +671,7 @@ export default function Checkout() {
     if (routerStoreCash > 0) {
       try {
         sessionStorage.setItem(
-          "freshStoreCashToUse",
+          "sheegraCashToUse",
           String(
             routerStoreCash
           )
@@ -1058,7 +1058,7 @@ export default function Checkout() {
 
           try {
             sessionStorage.removeItem(
-              "freshStoreCashToUse"
+              "sheegraCashToUse"
             );
           } catch {
             // Ignore storage errors.
@@ -1348,7 +1348,7 @@ export default function Checkout() {
 
               try {
                 sessionStorage.removeItem(
-                  "freshStoreCashToUse"
+                  "sheegraCashToUse"
                 );
               } catch {
                 // Ignore storage errors.

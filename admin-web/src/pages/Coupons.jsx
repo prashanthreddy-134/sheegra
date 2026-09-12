@@ -51,7 +51,7 @@ export default function Coupons() {
 
       {showForm && (
         <form onSubmit={save} className="bg-white rounded-xl2 border border-ink/10 p-4 mb-5 grid md:grid-cols-3 gap-3">
-          <input required placeholder="Code (e.g. FRESH50)" value={form.code} onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })} className="border border-ink/15 rounded-lg px-3 py-2 text-sm" />
+          <input required placeholder="Code (e.g. SHEE50)" value={form.code} onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })} className="border border-ink/15 rounded-lg px-3 py-2 text-sm" />
           <select value={form.discountType} onChange={(e) => setForm({ ...form, discountType: e.target.value })} className="border border-ink/15 rounded-lg px-3 py-2 text-sm">
             <option value="FLAT">Flat amount (₹)</option>
             <option value="PERCENT">Percentage (%)</option>

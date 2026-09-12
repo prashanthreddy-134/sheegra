@@ -244,7 +244,7 @@ export default function Invoice() {
               </h1>
 
               <p className="text-sm text-gray-500 mt-1">
-                Fresh groceries. Delivered.
+                sheegra groceries. Delivered.
               </p>
             </div>
 

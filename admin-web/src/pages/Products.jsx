@@ -79,7 +79,7 @@ export default function Products() {
   }, [loadProducts]);
 
   // ----------------------------------------
-  // AUTOMATIC PRODUCT/STOCK REFRESH
+  // Automatic refresh
   // ----------------------------------------
 
   useEffect(() => {
@@ -354,13 +354,61 @@ export default function Products() {
     }
   }
 
+  // ----------------------------------------
+  // Product status helper
+  // ----------------------------------------
+
+  function getStockStatus(p) {
+    const stock = Number(p.stockQty);
+
+    const lowStock =
+      stock > 0 &&
+      stock <= Number(p.lowStockAlert || 10);
+
+    const outOfStock = stock <= 0;
+
+    if (outOfStock) {
+      return {
+        label: "OUT OF STOCK",
+        className:
+          "text-red-600 bg-red-100",
+      };
+    }
+
+    if (lowStock) {
+      return {
+        label: "LOW STOCK",
+        className:
+          "text-mango bg-mango/10",
+      };
+    }
+
+    return {
+      label: "IN STOCK",
+      className:
+        "text-leaf bg-leaf-light",
+    };
+  }
+
   return (
     <Layout>
-      {/* ---------------------------------- */}
-      {/* Page Header */}
-      {/* ---------------------------------- */}
 
-      <div className="flex justify-between items-center mb-5">
+      {/* =====================================================
+          PAGE HEADER
+      ====================================================== */}
+      <div
+        className="
+          flex
+          flex-col
+          gap-3
+
+          sm:flex-row
+          sm:items-center
+          sm:justify-between
+
+          mb-5
+        "
+      >
         <h1 className="font-display font-800 text-xl">
           Products
         </h1>
@@ -368,21 +416,46 @@ export default function Products() {
         <button
           onClick={startNew}
           disabled={saving}
-          className="bg-leaf text-cream text-sm font-semibold px-4 py-2 rounded-full disabled:opacity-60"
+          className="
+            bg-leaf
+            text-cream
+            text-sm
+            font-semibold
+            px-4
+            py-2
+            rounded-full
+            disabled:opacity-60
+            w-full
+            sm:w-auto
+          "
         >
           + Add product
         </button>
       </div>
 
-      {/* ---------------------------------- */}
-      {/* Product Form */}
-      {/* ---------------------------------- */}
 
+      {/* =====================================================
+          PRODUCT FORM
+      ====================================================== */}
       {editing && (
         <form
           onSubmit={save}
-          className="bg-white rounded-xl2 border border-ink/10 p-4 mb-5 grid md:grid-cols-2 gap-3"
+          className="
+            bg-white
+            rounded-xl2
+            border
+            border-ink/10
+            p-4
+            mb-5
+
+            grid
+            grid-cols-1
+            md:grid-cols-2
+
+            gap-3
+          "
         >
+
           <input
             required
             placeholder="Product name"
@@ -393,7 +466,16 @@ export default function Products() {
                 name: e.target.value,
               })
             }
-            className="border border-ink/15 rounded-lg px-3 py-2 text-sm"
+            className="
+              w-full
+              min-w-0
+              border
+              border-ink/15
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+            "
           />
 
           <select
@@ -405,7 +487,16 @@ export default function Products() {
                 categoryId: e.target.value,
               })
             }
-            className="border border-ink/15 rounded-lg px-3 py-2 text-sm"
+            className="
+              w-full
+              min-w-0
+              border
+              border-ink/15
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+            "
           >
             <option value="">
               Select category
@@ -421,6 +512,7 @@ export default function Products() {
             ))}
           </select>
 
+
           <input
             required
             placeholder="Unit (e.g. 1 kg)"
@@ -431,10 +523,33 @@ export default function Products() {
                 unit: e.target.value,
               })
             }
-            className="border border-ink/15 rounded-lg px-3 py-2 text-sm"
+            className="
+              w-full
+              min-w-0
+              border
+              border-ink/15
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+            "
           />
 
-          <div className="flex items-center gap-2">
+
+          {/* Image URL + Upload */}
+          <div
+            className="
+              flex
+              flex-col
+              gap-2
+
+              sm:flex-row
+              sm:items-center
+              sm:gap-2
+
+              min-w-0
+            "
+          >
             <input
               placeholder="Image URL (or upload →)"
               value={form.imageUrl}
@@ -444,10 +559,35 @@ export default function Products() {
                   imageUrl: e.target.value,
                 })
               }
-              className="flex-1 border border-ink/15 rounded-lg px-3 py-2 text-sm"
+              className="
+                w-full
+                min-w-0
+                flex-1
+                border
+                border-ink/15
+                rounded-lg
+                px-3
+                py-2
+                text-sm
+              "
             />
 
-            <label className="text-xs font-medium text-leaf border border-leaf rounded-lg px-3 py-2 cursor-pointer whitespace-nowrap">
+            <label
+              className="
+                text-xs
+                font-medium
+                text-leaf
+                border
+                border-leaf
+                rounded-lg
+                px-3
+                py-2
+                cursor-pointer
+                text-center
+                whitespace-nowrap
+                shrink-0
+              "
+            >
               {uploading
                 ? "Uploading..."
                 : "Upload image"}
@@ -462,13 +602,24 @@ export default function Products() {
             </label>
           </div>
 
+
           {form.imageUrl && (
-            <img
-              src={form.imageUrl}
-              alt="Preview"
-              className="w-16 h-16 object-cover rounded-lg border border-ink/10"
-            />
+            <div className="flex items-center">
+              <img
+                src={form.imageUrl}
+                alt="Preview"
+                className="
+                  w-16
+                  h-16
+                  object-cover
+                  rounded-lg
+                  border
+                  border-ink/10
+                "
+              />
+            </div>
           )}
+
 
           <input
             required
@@ -483,8 +634,18 @@ export default function Products() {
                 mrp: e.target.value,
               })
             }
-            className="border border-ink/15 rounded-lg px-3 py-2 text-sm"
+            className="
+              w-full
+              min-w-0
+              border
+              border-ink/15
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+            "
           />
+
 
           <input
             required
@@ -499,8 +660,18 @@ export default function Products() {
                 sellingPrice: e.target.value,
               })
             }
-            className="border border-ink/15 rounded-lg px-3 py-2 text-sm"
+            className="
+              w-full
+              min-w-0
+              border
+              border-ink/15
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+            "
           />
+
 
           <input
             required
@@ -514,8 +685,18 @@ export default function Products() {
                 stockQty: e.target.value,
               })
             }
-            className="border border-ink/15 rounded-lg px-3 py-2 text-sm"
+            className="
+              w-full
+              min-w-0
+              border
+              border-ink/15
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+            "
           />
+
 
           <textarea
             placeholder="Description"
@@ -526,21 +707,61 @@ export default function Products() {
                 description: e.target.value,
               })
             }
-            className="border border-ink/15 rounded-lg px-3 py-2 text-sm md:col-span-2"
+            className="
+              w-full
+              min-w-0
+              border
+              border-ink/15
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+
+              md:col-span-2
+            "
             rows={2}
           />
 
+
           {error && (
-            <p className="text-sm text-red-600 md:col-span-2">
+            <p
+              className="
+                text-sm
+                text-red-600
+                md:col-span-2
+              "
+            >
               {error}
             </p>
           )}
 
-          <div className="md:col-span-2 flex gap-2">
+
+          <div
+            className="
+              md:col-span-2
+
+              flex
+              flex-col
+              gap-2
+
+              sm:flex-row
+            "
+          >
             <button
               type="submit"
               disabled={uploading || saving}
-              className="bg-leaf text-cream text-sm font-semibold px-4 py-2 rounded-full disabled:opacity-60"
+              className="
+                bg-leaf
+                text-cream
+                text-sm
+                font-semibold
+                px-4
+                py-2
+                rounded-full
+                disabled:opacity-60
+                w-full
+                sm:w-auto
+              "
             >
               {saving
                 ? "Saving..."
@@ -553,32 +774,67 @@ export default function Products() {
               type="button"
               onClick={cancelForm}
               disabled={saving}
-              className="text-sm text-ink/50 disabled:opacity-50"
+              className="
+                text-sm
+                text-ink/50
+                disabled:opacity-50
+                w-full
+                sm:w-auto
+                px-4
+                py-2
+              "
             >
               Cancel
             </button>
           </div>
+
         </form>
       )}
 
-      {/* ---------------------------------- */}
-      {/* Error outside form */}
-      {/* ---------------------------------- */}
 
+      {/* =====================================================
+          ERROR
+      ====================================================== */}
       {!editing && error && (
-        <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-4">
+        <div
+          className="
+            bg-red-50
+            border
+            border-red-200
+            text-red-600
+            text-sm
+            rounded-lg
+            px-4
+            py-3
+            mb-4
+          "
+        >
           {error}
         </div>
       )}
 
-      {/* ---------------------------------- */}
-      {/* Products Table */}
-      {/* ---------------------------------- */}
 
-      <div className="bg-white rounded-xl2 border border-ink/10 overflow-hidden">
+      {/* =====================================================
+          DESKTOP PRODUCTS TABLE
+          Visible only on desktop
+      ====================================================== */}
+      <div
+        className="
+          hidden
+          lg:block
+
+          bg-white
+          rounded-xl2
+          border
+          border-ink/10
+          overflow-hidden
+        "
+      >
         <table className="w-full text-sm">
+
           <thead className="bg-ink/5 text-left text-ink/50">
             <tr>
+
               <th className="px-4 py-2">
                 Product
               </th>
@@ -600,34 +856,55 @@ export default function Products() {
               </th>
 
               <th className="px-4 py-2"></th>
+
             </tr>
           </thead>
 
+
           <tbody>
+
             {loading ? (
               <tr>
                 <td
                   colSpan="6"
-                  className="px-4 py-8 text-center text-ink/50"
+                  className="
+                    px-4
+                    py-8
+                    text-center
+                    text-ink/50
+                  "
                 >
                   Loading products...
                 </td>
               </tr>
+
             ) : products.length === 0 ? (
+
               <tr>
                 <td
                   colSpan="6"
-                  className="px-4 py-8 text-center text-ink/50"
+                  className="
+                    px-4
+                    py-8
+                    text-center
+                    text-ink/50
+                  "
                 >
                   No products found.
                 </td>
               </tr>
+
             ) : (
+
               products.map((p) => {
                 const stock = Number(p.stockQty);
+
                 const lowStock =
                   stock > 0 &&
-                  stock <= Number(p.lowStockAlert || 10);
+                  stock <= Number(
+                    p.lowStockAlert || 10
+                  );
+
                 const outOfStock = stock <= 0;
 
                 return (
@@ -635,6 +912,7 @@ export default function Products() {
                     key={p.id}
                     className="border-t border-ink/5"
                   >
+
                     <td className="px-4 py-2 font-medium">
                       {p.name}{" "}
                       <span className="text-ink/40 font-normal">
@@ -642,23 +920,26 @@ export default function Products() {
                       </span>
                     </td>
 
+
                     <td className="px-4 py-2 text-ink/60">
                       {p.category?.name || "-"}
                     </td>
+
 
                     <td className="px-4 py-2">
                       ₹{Number(p.sellingPrice)}
                     </td>
 
+
                     <td className="px-4 py-2">
+
                       <input
                         type="number"
                         min="0"
                         defaultValue={stock}
                         onBlur={(e) => {
-                          const newValue = Number(
-                            e.target.value
-                          );
+                          const newValue =
+                            Number(e.target.value);
 
                           if (
                             Number.isFinite(newValue) &&
@@ -670,33 +951,91 @@ export default function Products() {
                             );
                           }
                         }}
-                        className={`w-16 border rounded px-2 py-1 text-xs ${
-                          outOfStock
-                            ? "border-red-400 text-red-600"
-                            : lowStock
-                            ? "border-mango text-mango"
-                            : "border-ink/15"
-                        }`}
+                        className={`
+                          w-16
+                          border
+                          rounded
+                          px-2
+                          py-1
+                          text-xs
+
+                          ${
+                            outOfStock
+                              ? "border-red-400 text-red-600"
+                              : lowStock
+                              ? "border-mango text-mango"
+                              : "border-ink/15"
+                          }
+                        `}
                       />
+
                     </td>
+
 
                     <td className="px-4 py-2">
+
                       {outOfStock ? (
-                        <span className="text-xs font-semibold text-red-600 bg-red-100 px-2 py-1 rounded-full">
+
+                        <span
+                          className="
+                            text-xs
+                            font-semibold
+                            text-red-600
+                            bg-red-100
+                            px-2
+                            py-1
+                            rounded-full
+                          "
+                        >
                           OUT OF STOCK
                         </span>
+
                       ) : lowStock ? (
-                        <span className="text-xs font-semibold text-mango bg-mango/10 px-2 py-1 rounded-full">
+
+                        <span
+                          className="
+                            text-xs
+                            font-semibold
+                            text-mango
+                            bg-mango/10
+                            px-2
+                            py-1
+                            rounded-full
+                          "
+                        >
                           LOW STOCK
                         </span>
+
                       ) : (
-                        <span className="text-xs font-medium text-leaf bg-leaf-light px-2 py-1 rounded-full">
+
+                        <span
+                          className="
+                            text-xs
+                            font-medium
+                            text-leaf
+                            bg-leaf-light
+                            px-2
+                            py-1
+                            rounded-full
+                          "
+                        >
                           IN STOCK
                         </span>
+
                       )}
+
                     </td>
 
-                    <td className="px-4 py-2 text-right space-x-2">
+
+                    <td
+                      className="
+                        px-4
+                        py-2
+                        text-right
+                        space-x-2
+                      "
+                    >
+
                       <button
                         onClick={() =>
                           startEdit(p)
@@ -706,6 +1045,7 @@ export default function Products() {
                         Edit
                       </button>
 
+
                       <button
                         onClick={() =>
                           deleteProduct(p.id)
@@ -714,14 +1054,296 @@ export default function Products() {
                       >
                         Remove
                       </button>
+
                     </td>
+
                   </tr>
                 );
               })
+
             )}
+
           </tbody>
+
         </table>
       </div>
+
+
+      {/* =====================================================
+          MOBILE PRODUCTS
+          Visible only on phones/tablets
+      ====================================================== */}
+      <div className="lg:hidden space-y-3">
+
+        {loading ? (
+
+          <div
+            className="
+              bg-white
+              rounded-xl2
+              border
+              border-ink/10
+              px-4
+              py-8
+              text-center
+              text-sm
+              text-ink/50
+            "
+          >
+            Loading products...
+          </div>
+
+        ) : products.length === 0 ? (
+
+          <div
+            className="
+              bg-white
+              rounded-xl2
+              border
+              border-ink/10
+              px-4
+              py-8
+              text-center
+              text-sm
+              text-ink/50
+            "
+          >
+            No products found.
+          </div>
+
+        ) : (
+
+          products.map((p) => {
+            const stock = Number(p.stockQty);
+            const status = getStockStatus(p);
+
+            return (
+              <div
+                key={p.id}
+                className="
+                  bg-white
+                  rounded-2xl
+                  border
+                  border-ink/10
+                  p-4
+                  w-full
+                  min-w-0
+                "
+              >
+
+                {/* Product name */}
+                <div className="min-w-0 mb-4">
+
+                  <h2
+                    className="
+                      font-display
+                      font-800
+                      text-base
+                      text-ink
+                      leading-tight
+                      break-words
+                    "
+                  >
+                    {p.name}
+                  </h2>
+
+                  <div
+                    className="
+                      text-sm
+                      text-ink/40
+                      mt-1
+                      break-words
+                    "
+                  >
+                    {p.unit}
+                  </div>
+
+                </div>
+
+
+                {/* Product details */}
+                <div
+                  className="
+                    grid
+                    grid-cols-1
+                    gap-3
+                    text-sm
+                  "
+                >
+
+                  {/* Category */}
+                  <div>
+                    <div className="text-xs text-ink/40 mb-1">
+                      Category
+                    </div>
+
+                    <div
+                      className="
+                        font-medium
+                        text-ink
+                        break-words
+                      "
+                    >
+                      {p.category?.name || "-"}
+                    </div>
+                  </div>
+
+
+                  {/* Price */}
+                  <div>
+                    <div className="text-xs text-ink/40 mb-1">
+                      Price
+                    </div>
+
+                    <div className="font-semibold text-ink">
+                      ₹{Number(p.sellingPrice)}
+                    </div>
+                  </div>
+
+
+                  {/* Stock */}
+                  <div>
+                    <div className="text-xs text-ink/40 mb-1">
+                      Stock
+                    </div>
+
+                    <input
+                      type="number"
+                      min="0"
+                      defaultValue={stock}
+                      onBlur={(e) => {
+                        const newValue =
+                          Number(e.target.value);
+
+                        if (
+                          Number.isFinite(newValue) &&
+                          newValue !== stock
+                        ) {
+                          quickStock(
+                            p.id,
+                            newValue
+                          );
+                        }
+                      }}
+                      className={`
+                        w-full
+                        max-w-full
+                        border
+                        rounded-lg
+                        px-3
+                        py-2
+                        text-sm
+                        bg-white
+
+                        ${
+                          stock <= 0
+                            ? "border-red-400 text-red-600"
+                            : stock <=
+                              Number(
+                                p.lowStockAlert || 10
+                              )
+                            ? "border-mango text-mango"
+                            : "border-ink/15"
+                        }
+                      `}
+                    />
+                  </div>
+
+
+                  {/* Status */}
+                  <div>
+
+                    <div className="text-xs text-ink/40 mb-1">
+                      Status
+                    </div>
+
+                    <span
+                      className={`
+                        inline-flex
+                        items-center
+                        text-xs
+                        font-semibold
+                        px-3
+                        py-1.5
+                        rounded-full
+                        ${status.className}
+                      `}
+                    >
+                      {status.label}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                {/* =================================================
+                    MOBILE ACTIONS
+                ================================================== */}
+                <div
+                  className="
+                    mt-4
+                    pt-4
+                    border-t
+                    border-ink/10
+
+                    grid
+                    grid-cols-2
+                    gap-2
+                  "
+                >
+
+                  <button
+                    type="button"
+                    onClick={() => startEdit(p)}
+                    className="
+                      w-full
+                      py-2.5
+                      rounded-lg
+                      border
+                      border-leaf
+                      text-leaf
+                      text-sm
+                      font-semibold
+                      hover:bg-leaf-light
+                      transition-colors
+                    "
+                  >
+                    Edit
+                  </button>
+
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      deleteProduct(p.id)
+                    }
+                    className="
+                      w-full
+                      py-2.5
+                      rounded-lg
+                      border
+                      border-red-200
+                      text-red-500
+                      text-sm
+                      font-semibold
+                      hover:bg-red-50
+                      transition-colors
+                    "
+                  >
+                    Remove
+                  </button>
+
+                </div>
+
+              </div>
+            );
+          })
+
+        )}
+
+      </div>
+
     </Layout>
   );
 }
