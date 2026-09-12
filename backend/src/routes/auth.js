@@ -351,6 +351,65 @@ router.post(
     }
   }
 );
+// ============================================================
+// TEMPORARY CUSTOMER LOGIN - WITHOUT OTP
+// TESTING ONLY
+// ============================================================
+
+router.post(
+  "/login",
+  async (req, res) => {
+    const parsed = phoneSchema.safeParse(req.body);
+
+    if (!parsed.success) {
+      return res.status(400).json({
+        error: parsed.error.errors[0].message,
+      });
+    }
+
+    const { phone } = parsed.data;
+
+    try {
+      const user = await prisma.user.findFirst({
+        where: {
+          phone,
+          role: "CUSTOMER",
+        },
+      });
+
+      if (!user) {
+        return res.status(404).json({
+          error:
+            "This mobile number is not registered. Please create an account first.",
+        });
+      }
+
+      if (!user.isActive) {
+        return res.status(403).json({
+          error: "Account disabled. Contact support.",
+        });
+      }
+
+      const token = signToken(user);
+
+      return res.json({
+        token,
+        user: {
+          id: user.id,
+          phone: user.phone,
+          name: user.name,
+          role: user.role,
+        },
+      });
+    } catch (err) {
+      console.error("Temporary customer login error:", err);
+
+      return res.status(500).json({
+        error: "Could not login.",
+      });
+    }
+  }
+);
 
 // ============================================================
 // CUSTOMER LOGIN - REQUEST OTP

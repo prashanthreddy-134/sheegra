@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/client";
 import { useAuth } from "../context/AuthContext";
@@ -23,31 +23,11 @@ export default function Login() {
   const phoneRegex = /^\+?[1-9]\d{9,14}$/;
 
   // ========================================
-  // OTP RESEND COUNTDOWN
+  // TEMPORARY CUSTOMER LOGIN WITHOUT OTP
+  // TESTING ONLY
   // ========================================
 
-  useEffect(() => {
-    if (resendCooldown <= 0) return;
-
-    const timer = setInterval(() => {
-      setResendCooldown((previous) => {
-        if (previous <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-
-        return previous - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [resendCooldown]);
-
-  // ========================================
-  // LOGIN - REQUEST OTP
-  // ========================================
-
-  async function handleLoginOtp(e) {
+  async function handleLogin(e) {
     e.preventDefault();
 
     setError("");
@@ -63,61 +43,16 @@ export default function Login() {
     setLoading(true);
 
     try {
-      await api.post("/auth/otp/request", {
+      const res = await api.post("/auth/login", {
         phone: cleanPhone,
-      });
-
-      setPhone(cleanPhone);
-      setOtp("");
-      setStep("otp");
-
-      // Start 30-second resend countdown
-      setResendCooldown(30);
-
-      setMessage("OTP sent successfully.");
-    } catch (err) {
-      setError(
-        err.response?.data?.error ||
-          "Could not send OTP."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // ========================================
-  // LOGIN - VERIFY OTP
-  // ========================================
-
-  async function handleLoginVerify(e) {
-    e.preventDefault();
-
-    setError("");
-    setMessage("");
-
-    const cleanPhone = phone.trim();
-    const cleanOtp = otp.trim();
-
-    if (!/^\d{6}$/.test(cleanOtp)) {
-      setError("Enter the 6-digit OTP.");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const res = await api.post("/auth/otp/verify", {
-        phone: cleanPhone,
-        code: cleanOtp,
       });
 
       login(res.data.token, res.data.user);
-
       navigate("/");
     } catch (err) {
       setError(
         err.response?.data?.error ||
-          "Invalid OTP. Please try again."
+          "Could not login. Please check your registered mobile number."
       );
     } finally {
       setLoading(false);
@@ -159,8 +94,6 @@ export default function Login() {
       setPhone(cleanPhone);
       setOtp("");
       setStep("otp");
-
-      // Start 30-second resend countdown
       setResendCooldown(30);
 
       setMessage("OTP sent successfully.");
@@ -202,20 +135,15 @@ export default function Login() {
         code: cleanOtp,
       });
 
-      // Registration does NOT log the customer in.
-      // Return to Login.
       setMode("login");
       setStep("phone");
 
       setName("");
       setPhone(cleanPhone);
       setOtp("");
-
-      // Stop any active countdown
       setResendCooldown(0);
 
       setError("");
-
       setMessage(
         "Account created successfully. Please log in with your registered mobile number."
       );
@@ -230,16 +158,11 @@ export default function Login() {
   }
 
   // ========================================
-  // RESEND OTP
+  // RESEND REGISTRATION OTP
   // ========================================
 
   async function handleResendOtp() {
-    // Extra protection against repeated clicks
-    if (
-      resendCooldown > 0 ||
-      resendLoading ||
-      loading
-    ) {
+    if (resendCooldown > 0 || resendLoading || loading) {
       return;
     }
 
@@ -256,22 +179,13 @@ export default function Login() {
     setResendLoading(true);
 
     try {
-      if (mode === "login") {
-        await api.post("/auth/otp/request", {
-          phone: cleanPhone,
-        });
-      } else {
-        await api.post("/auth/register/otp/request", {
-          name: name.trim(),
-          phone: cleanPhone,
-        });
-      }
+      await api.post("/auth/register/otp/request", {
+        name: name.trim(),
+        phone: cleanPhone,
+      });
 
       setOtp("");
-
-      // Restart 30-second countdown
       setResendCooldown(30);
-
       setMessage("A new OTP has been sent.");
     } catch (err) {
       setError(
@@ -322,9 +236,7 @@ export default function Login() {
         {/* Heading */}
         <h1 className="font-display font-800 text-xl mb-1">
           {mode === "login"
-            ? step === "otp"
-              ? "Verify your mobile number"
-              : "Log in to Sheegra"
+            ? "Log in to Sheegra"
             : step === "otp"
             ? "Verify your mobile number"
             : "Create your Sheegra account"}
@@ -332,30 +244,25 @@ export default function Login() {
 
         <p className="text-sm text-ink/60 mb-5">
           {mode === "login"
-            ? step === "otp"
-              ? `Enter the 6-digit OTP sent to ${phone}`
-              : "Login securely using your registered mobile number."
+            ? "Login using your registered mobile number."
             : step === "otp"
             ? `Enter the 6-digit OTP sent to ${phone}`
             : "Create your customer account to start shopping."}
         </p>
 
         {/* ================================= */}
-        {/* LOGIN PHONE */}
+        {/* LOGIN - NO OTP FOR TESTING */}
         {/* ================================= */}
 
-        {mode === "login" && step === "phone" && (
-          <form
-            onSubmit={handleLoginOtp}
-            className="space-y-3"
-          >
+        {mode === "login" && (
+          <form onSubmit={handleLogin} className="space-y-3">
+
             <input
               type="tel"
+              required
               placeholder="+91 98xxxxxxxx"
               value={phone}
-              onChange={(e) =>
-                setPhone(e.target.value)
-              }
+              onChange={(e) => setPhone(e.target.value)}
               className="w-full rounded-xl border border-ink/15 px-4 py-3 text-sm"
               autoComplete="tel"
               disabled={loading}
@@ -378,93 +285,14 @@ export default function Login() {
               disabled={loading}
               className="w-full bg-leaf text-cream rounded-xl py-3 font-semibold disabled:opacity-60"
             >
-              {loading
-                ? "Sending OTP..."
-                : "Continue"}
+              {loading ? "Logging in..." : "Login"}
             </button>
+
           </form>
         )}
 
         {/* ================================= */}
-        {/* LOGIN OTP */}
-        {/* ================================= */}
-
-        {mode === "login" && step === "otp" && (
-          <form
-            onSubmit={handleLoginVerify}
-            className="space-y-3"
-          >
-            <input
-              type="text"
-              inputMode="numeric"
-              maxLength={6}
-              placeholder="Enter 6-digit OTP"
-              value={otp}
-              onChange={(e) =>
-                setOtp(
-                  e.target.value.replace(/\D/g, "")
-                )
-              }
-              className="w-full rounded-xl border border-ink/15 px-4 py-3 text-center text-lg tracking-[0.4em] font-semibold"
-              autoComplete="one-time-code"
-              autoFocus
-              disabled={loading}
-            />
-
-            {message && (
-              <p className="text-sm text-green-600">
-                {message}
-              </p>
-            )}
-
-            {error && (
-              <p className="text-sm text-red-600">
-                {error}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-leaf text-cream rounded-xl py-3 font-semibold disabled:opacity-60"
-            >
-              {loading
-                ? "Verifying..."
-                : "Verify & Login"}
-            </button>
-
-            <div className="flex justify-between pt-1">
-              <button
-                type="button"
-                onClick={backToPhone}
-                disabled={loading}
-                className="text-sm text-ink/60 hover:text-leaf"
-              >
-                Change number
-              </button>
-
-              <button
-                type="button"
-                onClick={handleResendOtp}
-                disabled={
-                  loading ||
-                  resendLoading ||
-                  resendCooldown > 0
-                }
-                className="text-sm text-leaf font-semibold disabled:opacity-50"
-              >
-                {resendLoading
-                  ? "Sending..."
-                  : resendCooldown > 0
-                  ? `Resend OTP in ${resendCooldown}s`
-                  : "Resend OTP"}
-              </button>
-            </div>
-          </form>
-        )}
-
-        {/* ================================= */}
-        {/* REGISTER PHONE */}
+        {/* REGISTER - PHONE */}
         {/* ================================= */}
 
         {mode === "register" && step === "phone" && (
@@ -472,13 +300,13 @@ export default function Login() {
             onSubmit={handleRegisterOtp}
             className="space-y-3"
           >
+
             <input
               type="text"
+              required
               placeholder="Full name"
               value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
+              onChange={(e) => setName(e.target.value)}
               className="w-full rounded-xl border border-ink/15 px-4 py-3 text-sm"
               autoComplete="name"
               disabled={loading}
@@ -486,11 +314,10 @@ export default function Login() {
 
             <input
               type="tel"
+              required
               placeholder="+91 98xxxxxxxx"
               value={phone}
-              onChange={(e) =>
-                setPhone(e.target.value)
-              }
+              onChange={(e) => setPhone(e.target.value)}
               className="w-full rounded-xl border border-ink/15 px-4 py-3 text-sm"
               autoComplete="tel"
               disabled={loading}
@@ -513,15 +340,14 @@ export default function Login() {
               disabled={loading}
               className="w-full bg-leaf text-cream rounded-xl py-3 font-semibold disabled:opacity-60"
             >
-              {loading
-                ? "Sending OTP..."
-                : "Create account"}
+              {loading ? "Sending OTP..." : "Create account"}
             </button>
+
           </form>
         )}
 
         {/* ================================= */}
-        {/* REGISTER OTP */}
+        {/* REGISTER - OTP */}
         {/* ================================= */}
 
         {mode === "register" && step === "otp" && (
@@ -529,16 +355,16 @@ export default function Login() {
             onSubmit={handleRegisterVerify}
             className="space-y-3"
           >
+
             <input
               type="text"
               inputMode="numeric"
               maxLength={6}
+              required
               placeholder="Enter 6-digit OTP"
               value={otp}
               onChange={(e) =>
-                setOtp(
-                  e.target.value.replace(/\D/g, "")
-                )
+                setOtp(e.target.value.replace(/\D/g, ""))
               }
               className="w-full rounded-xl border border-ink/15 px-4 py-3 text-center text-lg tracking-[0.4em] font-semibold"
               autoComplete="one-time-code"
@@ -569,6 +395,7 @@ export default function Login() {
             </button>
 
             <div className="flex justify-between pt-1">
+
               <button
                 type="button"
                 onClick={backToPhone}
@@ -594,7 +421,9 @@ export default function Login() {
                   ? `Resend OTP in ${resendCooldown}s`
                   : "Resend OTP"}
               </button>
+
             </div>
+
           </form>
         )}
 
@@ -603,14 +432,13 @@ export default function Login() {
         {/* ================================= */}
 
         <div className="text-center mt-5 pt-4 border-t border-ink/10">
+
           {mode === "login" ? (
             <p className="text-sm text-ink/60">
               New to Sheegra?{" "}
               <button
                 type="button"
-                onClick={() =>
-                  switchMode("register")
-                }
+                onClick={() => switchMode("register")}
                 className="text-leaf font-semibold"
               >
                 Create an account
@@ -621,16 +449,16 @@ export default function Login() {
               Already have an account?{" "}
               <button
                 type="button"
-                onClick={() =>
-                  switchMode("login")
-                }
+                onClick={() => switchMode("login")}
                 className="text-leaf font-semibold"
               >
                 Log in
               </button>
             </p>
           )}
+
         </div>
+
       </div>
     </div>
   );
